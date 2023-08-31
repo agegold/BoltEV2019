@@ -481,9 +481,6 @@ class Controls:
 
     if CS.adaptiveCruise:
       self.v_cruise_kph = update_v_cruise(self.v_cruise_kph, CS.buttonEvents, self.button_timers, self.enabled, self.is_metric)
-      if CS.gasPressed:
-        if CS.vEgo*3.6 > self.v_cruise_kph:
-          self.v_cruise_kph = CS.vEgo*3.6
       if CS.regenPressed:
         self.v_cruise_kph = update_v_cruise_regen(CS.vEgo, self.v_cruise_kph, CS.regenPressed, self.enabled)
         self.regenPressed = True
@@ -659,8 +656,8 @@ class Controls:
       if len(dpath_points):
         # Check if we deviated from the path
         # TODO use desired vs actual curvature
-        left_deviation = actuators.steer > 0 and dpath_points[0] < 0.35 #-0.115
-        right_deviation = actuators.steer < 0 and dpath_points[0] > 0.35 #0.115
+        left_deviation = actuators.steer > 0 and dpath_points[0] < -0.35
+        right_deviation = actuators.steer < 0 and dpath_points[0] > 0.35
 
         if left_deviation or right_deviation:
           self.events.add(EventName.steerSaturated)
